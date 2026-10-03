@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Список авто{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Автомобілі</h1>
+    <a href="{% url 'car_create' %}" class="btn btn-primary">Додати авто</a>
+</div>
+
+<div class="row">
+    {% for car in cars %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ car.title }}</h5>
+                    <a href="{% url 'car_detail' car.slug car.id %}" class="btn btn-sm btn-info text-white">Детальніше</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Автомобілів не знайдено.</p>
+    {% endfor %}
+</div>
+{% endblock %}

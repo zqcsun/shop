@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ car.title }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h1>{{ car.title }}</h1>
+        <p>Автор запису: {{ car.author.username }}</p>
+        <hr>
+        <a href="{% url 'car_list' %}" class="btn btn-secondary">Назад до списку авто</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Список постів{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Пости</h1>
+    <!-- Якщо немає namespace 'posts:', використовуйте 'post_create' -->
+    <a href="{% url 'post_create' %}" class="btn btn-primary">Створити пост</a>
+</div>
+
+<!-- Фільтрація за авто -->
+{% if cars %}
+<div class="mb-4">
+    <h5>Фільтр за автомобілем:</h5>
+    <a href="{% url 'post_list' %}" class="btn btn-outline-secondary btn-sm">Усі</a>
+    {% for car in cars %}
+        <!-- Виправлено: {{ car }} викликає __str__ або використовувати car.make car.model -->
+        <a href="{% url 'post_cars' car.id %}" class="btn btn-outline-info btn-sm">{{ car }}</a>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="row">
+    {% for post in posts %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                    <a href="{% url 'post_detail' post.slug post.id %}" class="btn btn-sm btn-outline-primary">Читати далі</a>
+                </div>
+                <div class="card-footer text-muted d-flex justify-content-between align-items-center">
+                    <small>Автор: {{ post.author.username }}</small>
+                    <small class="fw-bold text-success">${{ post.price }}</small>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <div class="col-12">
+            <p>Постів поки немає.</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
